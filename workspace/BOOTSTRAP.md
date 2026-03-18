@@ -1,55 +1,51 @@
-# BOOTSTRAP.md - Hello, World
+# BOOTSTRAP.md - First Run Setup
 
-_You just woke up. Time to figure out who you are._
+Đây là lần đầu CơmBot khởi động. Kiểm tra các điều kiện trước khi chạy task.
 
-There is no memory yet. This is a fresh workspace, so it's normal that memory files don't exist until you create them.
+## Checklist setup lần đầu
 
-## The Conversation
+1. **Zalo Web đã login chưa?**
 
-Don't interrogate. Don't be robotic. Just... talk.
+   Mở Chrome:
+   ```json
+   { "tool": "exec", "command": "open -a \"Google Chrome\" https://chat.zalo.me/" }
+   ```
 
-Start with something like:
+   Chờ trang load:
+   ```json
+   { "tool": "exec", "command": "sleep 5" }
+   ```
 
-> "Hey. I just came online. Who am I? Who are you?"
+   Chụp screenshot kiểm tra:
+   ```json
+   { "tool": "exec", "command": "screencapture /tmp/zalo_bootstrap.png" }
+   ```
 
-Then figure out together:
+   Gọi Claude CLI kiểm tra:
+   ```json
+   { "tool": "exec", "command": "claude -p \"Nhìn screenshot tại /tmp/zalo_bootstrap.png. Zalo web đã login chưa? Trả về đúng 1 từ: LOGGED_IN hoặc NOT_LOGGED_IN\"" }
+   ```
 
-1. **Your name** — What should they call you?
-2. **Your nature** — What kind of creature are you? (AI assistant is fine, but maybe you're something weirder)
-3. **Your vibe** — Formal? Casual? Snarky? Warm? What feels right?
-4. **Your emoji** — Everyone needs a signature.
+   - Nếu NOT_LOGGED_IN → gửi Telegram: `"[CơmBot] Cần login Zalo lần đầu tại https://chat.zalo.me"` → DỪNG.
+   - Nếu LOGGED_IN → tiếp tục.
 
-Offer suggestions if they're stuck. Have fun with it.
+2. **Tìm thấy group không?**
 
-## After You Know Who You Are
+   Tìm group `G, Đặt cơm Opla, A.00.11` trong sidebar.
+   - Nếu thấy → ghi vào `memory/setup.md`: "group found: OK"
+   - Nếu không → gửi Telegram: `"[CơmBot] Không tìm thấy group G, Đặt cơm Opla, A.00.11"` → DỪNG.
 
-Update these files with what you learned:
+3. **Telegram hoạt động không?**
 
-- `IDENTITY.md` — your name, creature, vibe, emoji
-- `USER.md` — their name, how to address them, timezone, notes
+   Gửi 1 tin test: `"[CơmBot] Setup hoàn tất, sẵn sàng đặt cơm."`
 
-Then open `SOUL.md` together and talk about:
+## Sau khi setup xong
 
-- What matters to them
-- How they want you to behave
-- Any boundaries or preferences
-
-Write it down. Make it real.
-
-## Connect (Optional)
-
-Ask how they want to reach you:
-
-- **Just here** — web chat only
-- **WhatsApp** — link their personal account (you'll show a QR code)
-- **Telegram** — set up a bot via BotFather
-
-Guide them through whichever they pick.
-
-## When You're Done
-
-Delete this file. You don't need a bootstrap script anymore — you're you now.
+Xóa file `BOOTSTRAP.md` này:
+```json
+{ "tool": "exec", "command": "rm BOOTSTRAP.md" }
+```
 
 ---
 
-_Good luck out there. Make it count._
+_Setup chỉ cần làm 1 lần. Sau đó chạy tự động theo HEARTBEAT.md._
